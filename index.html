@@ -1,29 +1,78 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="一个简洁、可直接部署的个人网站起步页。">
-  <title>我的小网站</title>
+  <meta name="description" content="Welcome to Arabella's Fairy First Birthday.">
+  <title>Arabella's Fairy First</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Quicksand:wght@400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="#top">我的小网站</a>
-    <nav aria-label="主导航"><a href="#about">关于我</a><a href="#services">我能做什么</a><a href="#contact">联系我</a></nav>
-  </header>
-  <main id="top">
-    <section class="hero">
-      <p class="eyebrow">你好，欢迎来到这里</p>
-      <h1>把想法变成<br>清晰、好用的作品。</h1>
-      <p class="intro">这是一个轻量的个人网站起步页。你可以把它改成作品集、个人介绍页，或小型业务官网。</p>
-      <a class="button" href="#contact">和我聊聊</a>
+  <div class="sparkles" aria-hidden="true"></div>
+  <main>
+    <section class="arrival" id="top">
+      <p class="tiny-title">A little invitation from</p>
+      <h1>Arabella’s<br><span>Fairy First</span></h1>
+      <p class="subtitle">One year of love, laughter &amp; magical memories.</p>
+
+      <button class="fairy-door" id="open-door" type="button" aria-expanded="false" aria-controls="party">
+        <span class="door-arch">
+          <span class="door-left"></span><span class="door-right"></span>
+          <span class="door-heart">♥</span>
+        </span>
+        <span class="door-prompt">Tap to open the fairy door</span>
+      </button>
+      <p class="scroll-cue">A tiny bit of magic is waiting inside</p>
     </section>
-    <section id="about" class="section"><p class="eyebrow">关于我</p><h2>简单介绍，刚刚好。</h2><p>在这里写两三句话：你是谁、擅长什么，以及你希望帮助别人解决什么问题。保持真诚、具体，就足够让访客认识你。</p></section>
-    <section id="services" class="section"><p class="eyebrow">我能做什么</p><div class="cards"><article class="card"><h2>服务一</h2><p>用一句清楚的话说明你的第一项服务或能力。</p></article><article class="card"><h2>服务二</h2><p>用一句清楚的话说明你能为客户带来的价值。</p></article><article class="card"><h2>服务三</h2><p>也可以放作品、课程、产品或合作方式。</p></article></div></section>
-    <section id="contact" class="contact"><p class="eyebrow">联系我</p><h2>有一个想法？</h2><p>把下面的邮箱换成你的，就可以开始接收访客来信。</p><a class="email" href="mailto:hello@example.com">hello@example.com</a></section>
+
+    <div id="party" class="party-content" hidden>
+      <section class="welcome section">
+        <p class="eyebrow">Welcome, fairy friend</p>
+        <h2>Thank you for joining<br>Arabella’s enchanted day.</h2>
+        <p>Follow the sparkle trail, leave a little wish, and help us make memories she can discover someday.</p>
+        <div class="fairy-row" aria-hidden="true"><span>✦</span><span>♡</span><span>✦</span></div>
+      </section>
+
+      <section class="memory section">
+        <p class="eyebrow">A little look back</p>
+        <h2>Our first year of magic</h2>
+        <div class="memory-frame">
+          <div class="memory-placeholder">
+            <span>✿</span>
+            <p>Photos &amp; little films<br>will live here</p>
+          </div>
+        </div>
+        <p class="small-note">This is where we can add Arabella’s favourite photos or a short birthday video.</p>
+      </section>
+
+      <section class="wish-garden section" id="wishes">
+        <p class="eyebrow">The Wish Garden</p>
+        <h2>Leave a little magic<br>for Arabella to find someday.</h2>
+        <form id="wish-form" class="wish-form">
+          <label for="guest-name">Your name</label>
+          <input id="guest-name" name="name" type="text" maxlength="40" placeholder="A fairy friend" required>
+          <label for="guest-wish">Your birthday wish</label>
+          <textarea id="guest-wish" name="wish" rows="4" maxlength="280" placeholder="Dear Arabella, may your days always be..." required></textarea>
+          <button type="submit">Send a sparkle <span>✦</span></button>
+        </form>
+        <p class="form-status" id="form-status" aria-live="polite">The Wish Garden will bloom at the party.</p>
+        <div class="garden" aria-label="A garden waiting for birthday wishes">
+          <span class="flower f1">✿</span><span class="flower f2">✦</span><span class="flower f3">❀</span><span class="flower f4">♡</span><span class="flower f5">✿</span>
+        </div>
+      </section>
+
+      <section class="closing section">
+        <div class="moon">☾</div>
+        <p class="eyebrow">With love</p>
+        <h2>Thank you for being<br>part of my fairy first birthday.</h2>
+        <p>Love, Arabella</p>
+      </section>
+    </div>
   </main>
-  <footer>© <span id="year"></span> 我的小网站</footer>
+  <footer>Made with a little fairy dust ✦</footer>
   <script src="script.js"></script>
 </body>
 </html>
