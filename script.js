@@ -14,5 +14,5 @@ door.addEventListener('click', () => {
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
-  status.textContent = 'The Wish Garden is almost ready to receive your sparkle.';
+  status.textContent = 'Our Wish Garden is getting ready to bloom.';
 });
