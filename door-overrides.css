@@ -1,0 +1,14 @@
+/* New illustrated door scene: door.png remains the original source image. */
+.fairy-door{position:relative;border:0;padding:0;background:transparent;cursor:pointer;color:inherit;font:inherit;display:inline-flex;flex-direction:column;align-items:center;transition:transform .35s ease;isolation:isolate}
+.fairy-door:hover{transform:translateY(-4px)}
+.door-scene{position:relative;display:block;width:min(390px,72vw);aspect-ratio:2 / 3;perspective:1200px;transform-style:preserve-3d;filter:drop-shadow(0 18px 28px rgba(126,78,75,.22));overflow:visible}
+.door-scene::before{content:"";position:absolute;inset:0;background:url("door.png") center/100% 100% no-repeat;z-index:1}
+.door-opening{position:absolute;z-index:2;left:23.5%;right:23.5%;top:22.4%;bottom:4.7%;background:radial-gradient(ellipse at 50% 28%,rgba(255,249,220,.98) 0%,rgba(247,213,193,.98) 42%,rgba(188,126,119,.98) 100%);clip-path:polygon(50% 0,63% 2%,75% 7%,85% 16%,92% 28%,97% 44%,100% 100%,0 100%,3% 44%,8% 28%,15% 16%,25% 7%,37% 2%);opacity:0;transition:opacity .45s ease}
+.door-leaf{position:absolute;z-index:3;top:0;bottom:0;width:50%;background:url("door.png") center/200% 100% no-repeat;transform-style:preserve-3d;backface-visibility:hidden;transition:transform 1.15s cubic-bezier(.2,.82,.2,1),filter 1.15s ease}
+.door-leaf-left{left:0;background-position:left top;clip-path:polygon(50% 22.4%,63% 23.7%,75% 27%,85% 33%,92% 41%,97% 52%,100% 100%,0 100%,0 44%,3% 38%,8% 30%,15% 25%,25% 23%,37% 22.5%);transform-origin:0 50%}
+.door-leaf-right{right:0;background-position:right top;clip-path:polygon(50% 22.4%,63% 23%,75% 25%,85% 30%,92% 38%,97% 44%,100% 100%,0 100%,3% 52%,8% 41%,15% 33%,25% 27%,37% 23.7%);transform-origin:100% 50%}
+.fairy-door.open .door-opening{opacity:1}
+.fairy-door.open .door-leaf-left{transform:rotateY(-82deg);filter:brightness(.96)}
+.fairy-door.open .door-leaf-right{transform:rotateY(82deg);filter:brightness(.96)}
+.door-prompt{display:block;margin-top:15px;color:var(--deep-rose);font-family:"DM Serif Display",serif;font-style:italic;font-size:1.08rem}
+@media(max-width:430px){.door-scene{width:min(350px,88vw)}.door-prompt{margin-top:10px;font-size:1rem}}
