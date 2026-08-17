@@ -1,17 +1,18 @@
-# 我的小网站
+# Arabella’s Fairy First
 
-这是一个不需要安装任何工具的静态单页网站。
+A small interactive birthday website hosted with GitHub Pages.
 
-## 在本机预览
+## What is included
 
-直接双击打开 `index.html`，即可在浏览器中查看。
+- A fairy-door opening moment for NFC guests
+- A magical English welcome page
+- A reserved place for photos or a birthday video
+- A Wish Garden form design
 
-## 最先要修改的内容
+## Before the party
 
-1. 在 `index.html` 中将「我的小网站」改成你的名称。
-2. 改写「关于我」和三个服务卡片的文字。
-3. 把 `hello@example.com` 替换为你的真实联系邮箱。
+The Wish Garden is currently visual only. To let guests submit wishes and see one another's messages, connect the form to a guestbook or form service and add the display feed.
 
-## 发布准备
+Photos or video can be added later by replacing the placeholder in `index.html`.
 
-之后可以使用 GitHub Pages、Netlify 或 Vercel 进行部署；它们都支持这种纯静态网站。
+The live site is published from the `main` branch with GitHub Pages.
