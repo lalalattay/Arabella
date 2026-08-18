@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Quicksand:wght@400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="door-overrides.css">
+  <link rel="stylesheet" href="carousel-fixes.css">
 </head>
 <body>
   <div class="everlasting-charms" aria-hidden="true"><span class="charm c1">✦</span><span class="charm c2">♡</span><span class="charm c3">✿</span><span class="charm c4">✧</span><span class="charm c5">❀</span><span class="charm c6">♡</span><span class="charm c7">✦</span><span class="charm c8">✿</span><span class="charm c9">✧</span></div>
@@ -18,47 +19,12 @@
       <div class="title-garden" aria-hidden="true"><span>✿</span><i></i><span>✦</span><i></i><span>❀</span></div>
       <h1>Arabella’s<br><span>Fairy First</span></h1>
       <p class="subtitle">One year of love, laughter &amp; magical memories.</p>
-
-      <button class="fairy-door" id="open-door" type="button" aria-expanded="false" aria-controls="party">
-        <span class="door-scene" aria-hidden="true">
-          <span class="door-opening"></span>
-          <span class="door-leaf door-leaf-left"></span>
-          <span class="door-leaf door-leaf-right"></span>
-        </span>
-        <span class="door-prompt">Tap to step inside</span>
-      </button>
+      <button class="fairy-door" id="open-door" type="button" aria-expanded="false" aria-controls="party"><span class="door-scene" aria-hidden="true"><span class="door-opening"></span><span class="door-leaf door-leaf-left"></span><span class="door-leaf door-leaf-right"></span></span><span class="door-prompt">Tap to step inside</span></button>
     </section>
-
     <div id="party" class="party-content" hidden>
-      <section class="welcome section">
-        <p class="eyebrow">Welcome</p>
-        <h2>Thank you for joining<br>my enchanted day.</h2>
-        <p>Come see what I’ve been up to ✨</p>
-        <div class="fairy-row" aria-hidden="true"><span>✦</span><span>♡</span><span>✦</span></div>
-      </section>
-      <section class="memory section">
-        <p class="eyebrow">A little look back</p><h2>My first year of magic</h2>
-        <div class="photo-carousel" id="photo-carousel" aria-label="Arabella's first year photo carousel">
-          <button class="carousel-button carousel-prev" type="button" aria-label="Previous photo">‹</button>
-          <div class="carousel-frame">
-            <span class="carousel-ornament ornament-tl" aria-hidden="true">❧</span>
-            <span class="carousel-ornament ornament-tr" aria-hidden="true">❧</span>
-            <span class="carousel-ornament ornament-bl" aria-hidden="true">❧</span>
-            <span class="carousel-ornament ornament-br" aria-hidden="true">❧</span>
-            <img id="carousel-image" src="" alt="Arabella memory 1 of 60" draggable="false">
-          </div>
-          <button class="carousel-button carousel-next" type="button" aria-label="Next photo">›</button>
-        </div>
-        <div class="carousel-dots" id="carousel-dots" aria-label="Photo position"></div>
-        <div class="carousel-meta" aria-live="polite"><span id="carousel-count">1 / 60</span></div>
-      </section>
-      <section class="wish-garden section" id="wishes">
-        <p class="eyebrow">The Fairy Post</p><h2>♡ Leave a note for me ♡</h2><p class="wish-intro">Little memories I'll keep.</p>
-        <form id="wish-form" class="wish-form"><label for="guest-name">From</label><input id="guest-name" name="name" type="text" maxlength="40" placeholder="Who’s this? ♡" required><label for="guest-wish">A note for Arabella</label><textarea id="guest-wish" name="wish" rows="4" maxlength="280" placeholder="Send it my way ♡" required></textarea><button type="submit">Send a sparkle <span>✦</span></button></form>
-        <p class="form-status" id="form-status" aria-live="polite">The Wish Garden will bloom at the party.</p>
-        <div id="wishes-list" class="wishes-list" aria-live="polite" aria-label="Wishes left for Arabella"></div>
-        <div class="garden" aria-label="A garden waiting for notes to Arabella"><span class="flower f1">✿</span><span class="flower f2">✦</span><span class="flower f3">❀</span><span class="flower f4">♡</span><span class="flower f5">✿</span></div>
-      </section>
+      <section class="welcome section"><p class="eyebrow">Welcome</p><h2>Thank you for joining<br>my enchanted day.</h2><p>Come see what I’ve been up to ✨</p><div class="fairy-row" aria-hidden="true"><span>✦</span><span>♡</span><span>✦</span></div></section>
+      <section class="memory section"><p class="eyebrow">A little look back</p><h2>My first year of magic</h2><div class="photo-carousel" id="photo-carousel" aria-label="Arabella's first year photo carousel"><button class="carousel-button carousel-prev" type="button" aria-label="Previous photo">‹</button><div class="carousel-frame"><span class="carousel-ornament ornament-tl" aria-hidden="true">❧</span><span class="carousel-ornament ornament-tr" aria-hidden="true">❧</span><span class="carousel-ornament ornament-bl" aria-hidden="true">❧</span><span class="carousel-ornament ornament-br" aria-hidden="true">❧</span><img id="carousel-image" src="" alt="Arabella memory 1 of 60" draggable="false"></div><button class="carousel-button carousel-next" type="button" aria-label="Next photo">›</button></div><div class="carousel-dots" id="carousel-dots" aria-label="Photo position"></div><div class="carousel-meta" aria-live="polite"><span id="carousel-count">1 / 60</span></div></section>
+      <section class="wish-garden section" id="wishes"><p class="eyebrow">The Fairy Post</p><h2>♡ Leave a note for me ♡</h2><p class="wish-intro">Little memories I'll keep.</p><form id="wish-form" class="wish-form"><label for="guest-name">From</label><input id="guest-name" name="name" type="text" maxlength="40" placeholder="Who’s this? ♡" required><label for="guest-wish">A note for Arabella</label><textarea id="guest-wish" name="wish" rows="4" maxlength="280" placeholder="Send it my way ♡" required></textarea><button type="submit">Send a sparkle <span>✦</span></button></form><p class="form-status" id="form-status" aria-live="polite">The Wish Garden will bloom at the party.</p><div id="wishes-list" class="wishes-list" aria-live="polite" aria-label="Wishes left for Arabella"></div><div class="garden" aria-label="A garden waiting for notes to Arabella"><span class="flower f1">✿</span><span class="flower f2">✦</span><span class="flower f3">❀</span><span class="flower f4">♡</span><span class="flower f5">✿</span></div></section>
       <section class="closing section"><div class="moon">☾</div><p class="eyebrow">With love</p><h2>Thank you for being<br>part of my fairy first birthday.</h2><p>Love, Arabella</p></section>
     </div>
   </main>
