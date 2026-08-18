@@ -191,7 +191,7 @@ async function fetchWishes() {
         status.textContent = 'Be the first to leave a wish! ✦';
         status.className = 'form-status empty';
       } else {
-        status.textContent = 'The Wish Garden is blooming with love.';
+        status.textContent = 'Your note is safely tucked away. ♡';
         status.className = 'form-status';
       }
     } else {
@@ -199,7 +199,7 @@ async function fetchWishes() {
     }
   } catch (error) {
     console.error('Error fetching wishes:', error);
-    status.textContent = 'The Wish Garden is waiting for its first wish...';
+    status.textContent = 'The Fairy Post is waiting for its first note...';
     status.className = 'form-status';
   }
 }
@@ -234,7 +234,7 @@ async function submitWish(event) {
     const data = await response.json();
 
     if (data.success) {
-      status.textContent = '✦ Your wish has been added to the garden! ✦';
+      status.textContent = 'Your note is safely tucked away. ♡';
       status.className = 'form-status success';
       form.reset();
       setTimeout(fetchWishes, 800);
@@ -248,27 +248,56 @@ async function submitWish(event) {
   }
 }
 
+function formatWishDate(wish) {
+  const rawDate = wish.date || wish.timestamp || wish.createdAt || wish.time || wish.created_at;
+  if (!rawDate) return '';
+  const date = new Date(rawDate);
+  if (Number.isNaN(date.getTime())) return '';
+  return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
 function displayWishes(wishes) {
   const wishesContainer = document.getElementById('wishes-list');
   wishesContainer.innerHTML = '';
 
   if (wishes.length === 0) return;
 
-  wishes.forEach((wish, index) => {
+  wishes.forEach((wish) => {
     const wishCard = document.createElement('div');
     wishCard.className = 'wish-card';
-    wishCard.style.animationDelay = (index * 0.1) + 's';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'wish-avatar';
+    avatar.setAttribute('aria-hidden', 'true');
+    avatar.textContent = ['🦋', '✦', '☾', '✿', '♡', '❀'][Math.floor(Math.random() * 6)];
+
+    const wishBody = document.createElement('div');
+    wishBody.className = 'wish-body';
+
+    const wishHeader = document.createElement('div');
+    wishHeader.className = 'wish-header';
 
     const nameEl = document.createElement('p');
     nameEl.className = 'wish-name';
     nameEl.textContent = wish.name;
 
+    const dateEl = document.createElement('time');
+    dateEl.className = 'wish-date';
+    const formattedDate = formatWishDate(wish);
+    if (formattedDate) {
+      dateEl.textContent = formattedDate;
+    }
+
     const wishEl = document.createElement('p');
     wishEl.className = 'wish-text';
     wishEl.textContent = wish.wish;
 
-    wishCard.appendChild(nameEl);
-    wishCard.appendChild(wishEl);
+    wishHeader.appendChild(nameEl);
+    if (formattedDate) wishHeader.appendChild(dateEl);
+    wishBody.appendChild(wishHeader);
+    wishBody.appendChild(wishEl);
+    wishCard.appendChild(avatar);
+    wishCard.appendChild(wishBody);
     wishesContainer.appendChild(wishCard);
   });
 }
