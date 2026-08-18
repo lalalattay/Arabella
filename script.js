@@ -6,6 +6,7 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0QgVPo5T8AzQRTM-7E
 
 // Photo carousel
 const carousel = document.querySelector('#photo-carousel');
+const carouselFrame = document.querySelector('.carousel-frame');
 const carouselImage = document.querySelector('#carousel-image');
 const carouselCount = document.querySelector('#carousel-count');
 const carouselDots = document.querySelector('#carousel-dots');
@@ -17,6 +18,8 @@ let photoFiles = [];
 let photoIndex = 0;
 let photoTouchStartX = 0;
 let photoTouchStartY = 0;
+let slideBusy = false;
+const DOT_COUNT = 5;
 
 async function loadCarousel() {
   if (!carousel || photoFiles.length) return;
@@ -40,16 +43,15 @@ async function loadCarousel() {
 
 function buildCarouselDots() {
   carouselDots.innerHTML = '';
-  // Show up to 7 dots as a visual position indicator without making 60 dots.
-  const dotCount = Math.min(7, photoFiles.length);
+  const dotCount = Math.min(DOT_COUNT, photoFiles.length);
   for (let i = 0; i < dotCount; i++) {
     const dot = document.createElement('button');
     dot.type = 'button';
     dot.className = 'carousel-dot';
-    dot.setAttribute('aria-label', `Go to photo group ${i + 1}`);
+    dot.setAttribute('aria-label', `Photo position ${i + 1}`);
     dot.addEventListener('click', () => {
-      const target = Math.round((i / Math.max(1, dotCount - 1)) * (photoFiles.length - 1));
-      showPhoto(target);
+      const target = Math.min(i, photoFiles.length - 1);
+      showPhoto(target, true, target > photoIndex ? 1 : -1);
     });
     carouselDots.appendChild(dot);
   }
@@ -58,28 +60,67 @@ function buildCarouselDots() {
 function updateCarouselDots() {
   const dots = carouselDots.querySelectorAll('.carousel-dot');
   if (!dots.length) return;
-  const activeDot = Math.min(
-    dots.length - 1,
-    Math.floor((photoIndex / Math.max(1, photoFiles.length - 1)) * dots.length)
-  );
+  // The indicator advances on EVERY photo instead of waiting for a group of photos.
+  const activeDot = photoIndex % dots.length;
   dots.forEach((dot, index) => dot.classList.toggle('active', index === activeDot));
 }
 
-function showPhoto(index, animate = true) {
-  if (!photoFiles.length) return;
-  photoIndex = (index + photoFiles.length) % photoFiles.length;
+function showPhoto(index, animate = true, direction = null) {
+  if (!photoFiles.length || slideBusy) return;
+
+  const nextIndex = (index + photoFiles.length) % photoFiles.length;
+  if (nextIndex === photoIndex && carouselImage.src) return;
+
+  const previousIndex = photoIndex;
+  photoIndex = nextIndex;
   const file = photoFiles[photoIndex];
   const nextSrc = PHOTO_BASE + encodeURIComponent(file.name);
+  const slideDirection = direction ?? (photoIndex > previousIndex ? 1 : -1);
 
-  if (animate) carouselImage.classList.add('is-changing');
-  carouselImage.onload = () => carouselImage.classList.remove('is-changing');
-  carouselImage.src = nextSrc;
-  carouselImage.alt = `Arabella memory ${photoIndex + 1} of ${photoFiles.length}`;
-  carouselCount.textContent = `${photoIndex + 1} / ${photoFiles.length}`;
+  if (!animate || !carouselImage.src) {
+    carouselImage.src = nextSrc;
+    carouselImage.alt = `Arabella memory ${photoIndex + 1} of ${photoFiles.length}`;
+    carouselCount.textContent = `${photoIndex + 1} / ${photoFiles.length}`;
+    updateCarouselDots();
+    preloadPhoto(photoIndex - 1);
+    preloadPhoto(photoIndex + 1);
+    return;
+  }
+
+  slideBusy = true;
   updateCarouselDots();
+  carouselCount.textContent = `${photoIndex + 1} / ${photoFiles.length}`;
 
-  preloadPhoto(photoIndex - 1);
-  preloadPhoto(photoIndex + 1);
+  const incoming = document.createElement('img');
+  incoming.className = 'carousel-slide-image';
+  incoming.alt = `Arabella memory ${photoIndex + 1} of ${photoFiles.length}`;
+  incoming.draggable = false;
+  incoming.src = nextSrc;
+  incoming.style.setProperty('--slide-from', slideDirection > 0 ? '100%' : '-100%');
+  incoming.style.setProperty('--slide-to', '0%');
+  carouselFrame.appendChild(incoming);
+
+  const finish = () => {
+    carouselImage.src = nextSrc;
+    carouselImage.alt = incoming.alt;
+    incoming.remove();
+    slideBusy = false;
+    preloadPhoto(photoIndex - 1);
+    preloadPhoto(photoIndex + 1);
+  };
+
+  incoming.onload = () => {
+    requestAnimationFrame(() => {
+      carouselImage.classList.add(slideDirection > 0 ? 'slide-out-left' : 'slide-out-right');
+      incoming.classList.add('slide-in');
+    });
+    setTimeout(finish, 430);
+  };
+
+  incoming.onerror = () => {
+    incoming.remove();
+    slideBusy = false;
+  };
 }
 
 function preloadPhoto(index) {
@@ -90,11 +131,11 @@ function preloadPhoto(index) {
 }
 
 function nextPhoto() {
-  showPhoto(photoIndex + 1);
+  if (!slideBusy) showPhoto(photoIndex + 1, true, 1);
 }
 
 function previousPhoto() {
-  showPhoto(photoIndex - 1);
+  if (!slideBusy) showPhoto(photoIndex - 1, true, -1);
 }
 
 if (carousel) {
