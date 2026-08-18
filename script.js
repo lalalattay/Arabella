@@ -68,7 +68,7 @@ function showPhoto(index, animate = true, direction = null) {
   if (!photoFiles.length || slideBusy) return;
 
   const nextIndex = (index + photoFiles.length) % photoFiles.length;
-  if (nextIndex === photoIndex && carouselImage.src) return;
+  if (animate && nextIndex === photoIndex && carouselImage.dataset.loaded === 'true') return;
 
   const previousIndex = photoIndex;
   photoIndex = nextIndex;
@@ -76,10 +76,11 @@ function showPhoto(index, animate = true, direction = null) {
   const nextSrc = PHOTO_BASE + encodeURIComponent(file.name);
   const slideDirection = direction ?? (photoIndex > previousIndex ? 1 : -1);
 
-  if (!animate || !carouselImage.src) {
+  if (!animate || carouselImage.dataset.loaded !== 'true') {
     carouselImage.classList.remove('slide-out-left', 'slide-out-right');
     carouselImage.src = nextSrc;
     carouselImage.alt = `Arabella memory ${photoIndex + 1} of ${photoFiles.length}`;
+    carouselImage.dataset.loaded = 'true';
     carouselCount.textContent = `${photoIndex + 1} / ${photoFiles.length}`;
     updateCarouselDots();
     preloadPhoto(photoIndex - 1);
