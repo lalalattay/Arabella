@@ -38,8 +38,14 @@
       </section>
       <section class="memory section">
         <p class="eyebrow">A little look back</p><h2>My first year of magic</h2>
-        <div class="memory-frame"><div class="memory-placeholder"><span>✿</span><p>Photos &amp; little films<br>will live here</p></div></div>
-        <p class="small-note">This is where we can add Arabella’s favourite photos or a short birthday video.</p>
+        <div class="photo-carousel" id="photo-carousel" aria-label="Arabella's first year photo carousel">
+          <button class="carousel-button carousel-prev" type="button" aria-label="Previous photo">‹</button>
+          <div class="carousel-frame">
+            <img id="carousel-image" src="" alt="Arabella memory 1 of 60" draggable="false">
+          </div>
+          <button class="carousel-button carousel-next" type="button" aria-label="Next photo">›</button>
+        </div>
+        <div class="carousel-meta" aria-live="polite"><span id="carousel-count">1 / 60</span></div>
       </section>
       <section class="wish-garden section" id="wishes">
         <p class="eyebrow">The Fairy Post</p><h2>♡ Leave a note for me ♡</h2><p class="wish-intro">Little memories I'll keep.</p>
