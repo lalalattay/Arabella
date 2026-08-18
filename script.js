@@ -8,6 +8,7 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0QgVPo5T8AzQRTM-7E
 const carousel = document.querySelector('#photo-carousel');
 const carouselImage = document.querySelector('#carousel-image');
 const carouselCount = document.querySelector('#carousel-count');
+const carouselDots = document.querySelector('#carousel-dots');
 const carouselPrev = document.querySelector('.carousel-prev');
 const carouselNext = document.querySelector('.carousel-next');
 const PHOTO_API = 'https://api.github.com/repos/lalalattay/Arabella/contents/photos?ref=main';
@@ -28,13 +29,40 @@ async function loadCarousel() {
       .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
 
     if (!photoFiles.length) throw new Error('No photos found');
-    photoIndex = 0;
+    buildCarouselDots();
     showPhoto(photoIndex, false);
   } catch (error) {
     console.error('Error loading photo carousel:', error);
     carouselImage.alt = 'Photos are loading...';
     carouselCount.textContent = 'Photos are loading...';
   }
+}
+
+function buildCarouselDots() {
+  carouselDots.innerHTML = '';
+  // Show up to 7 dots as a visual position indicator without making 60 dots.
+  const dotCount = Math.min(7, photoFiles.length);
+  for (let i = 0; i < dotCount; i++) {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'carousel-dot';
+    dot.setAttribute('aria-label', `Go to photo group ${i + 1}`);
+    dot.addEventListener('click', () => {
+      const target = Math.round((i / Math.max(1, dotCount - 1)) * (photoFiles.length - 1));
+      showPhoto(target);
+    });
+    carouselDots.appendChild(dot);
+  }
+}
+
+function updateCarouselDots() {
+  const dots = carouselDots.querySelectorAll('.carousel-dot');
+  if (!dots.length) return;
+  const activeDot = Math.min(
+    dots.length - 1,
+    Math.floor((photoIndex / Math.max(1, photoFiles.length - 1)) * dots.length)
+  );
+  dots.forEach((dot, index) => dot.classList.toggle('active', index === activeDot));
 }
 
 function showPhoto(index, animate = true) {
@@ -48,6 +76,7 @@ function showPhoto(index, animate = true) {
   carouselImage.src = nextSrc;
   carouselImage.alt = `Arabella memory ${photoIndex + 1} of ${photoFiles.length}`;
   carouselCount.textContent = `${photoIndex + 1} / ${photoFiles.length}`;
+  updateCarouselDots();
 
   preloadPhoto(photoIndex - 1);
   preloadPhoto(photoIndex + 1);
