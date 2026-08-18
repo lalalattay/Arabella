@@ -91,6 +91,8 @@ function showPhoto(index, animate = true, direction = null) {
   updateCarouselDots();
   carouselCount.textContent = `${photoIndex + 1} / ${photoFiles.length}`;
 
+  // Only the incoming photo moves. The current photo stays still underneath it,
+  // so each navigation produces exactly ONE clean left/right slide.
   const incoming = document.createElement('img');
   incoming.className = 'carousel-slide-image';
   incoming.alt = `Arabella memory ${photoIndex + 1} of ${photoFiles.length}`;
@@ -101,7 +103,6 @@ function showPhoto(index, animate = true, direction = null) {
   carouselFrame.appendChild(incoming);
 
   const finish = () => {
-    // Remove the old slide state BEFORE making the new image the permanent image.
     carouselImage.classList.remove('slide-out-left', 'slide-out-right');
     carouselImage.src = nextSrc;
     carouselImage.alt = incoming.alt;
@@ -112,10 +113,7 @@ function showPhoto(index, animate = true, direction = null) {
   };
 
   incoming.onload = () => {
-    requestAnimationFrame(() => {
-      carouselImage.classList.add(slideDirection > 0 ? 'slide-out-left' : 'slide-out-right');
-      incoming.classList.add('slide-in');
-    });
+    requestAnimationFrame(() => incoming.classList.add('slide-in'));
     setTimeout(finish, 430);
   };
 
