@@ -60,7 +60,6 @@ function buildCarouselDots() {
 function updateCarouselDots() {
   const dots = carouselDots.querySelectorAll('.carousel-dot');
   if (!dots.length) return;
-  // The indicator advances on EVERY photo instead of waiting for a group of photos.
   const activeDot = photoIndex % dots.length;
   dots.forEach((dot, index) => dot.classList.toggle('active', index === activeDot));
 }
@@ -78,6 +77,7 @@ function showPhoto(index, animate = true, direction = null) {
   const slideDirection = direction ?? (photoIndex > previousIndex ? 1 : -1);
 
   if (!animate || !carouselImage.src) {
+    carouselImage.classList.remove('slide-out-left', 'slide-out-right');
     carouselImage.src = nextSrc;
     carouselImage.alt = `Arabella memory ${photoIndex + 1} of ${photoFiles.length}`;
     carouselCount.textContent = `${photoIndex + 1} / ${photoFiles.length}`;
@@ -101,6 +101,8 @@ function showPhoto(index, animate = true, direction = null) {
   carouselFrame.appendChild(incoming);
 
   const finish = () => {
+    // Remove the old slide state BEFORE making the new image the permanent image.
+    carouselImage.classList.remove('slide-out-left', 'slide-out-right');
     carouselImage.src = nextSrc;
     carouselImage.alt = incoming.alt;
     incoming.remove();
